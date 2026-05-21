@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>七年之约 · 设定目标</title>
+<style>
+  :root {
+    --bg: #0f1119; --card: #1a1d2e; --card2: #222640;
+    --text: #e0e0e0; --dim: #8890a8;
+    --green: #00d4aa; --red: #ff6b7c; --blue: #6c8cff;
+    --gold: #f5c842; --purple: #a78bfa;
+    --gradient: linear-gradient(135deg, #00d4aa, #6c8cff);
+    --radius: 16px; --radius-sm: 10px;
+    --shadow: 0 8px 32px rgba(0,0,0,.4);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background-image:
+      radial-gradient(ellipse at 30% 20%, rgba(0,212,170,.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(108,140,255,.08) 0%, transparent 50%);
+  }
+  .onboard-container {
+    width: 520px; max-width: 95vw;
+  }
+
+  /* ─── 步骤指示器 ─── */
+  .steps { display:flex; justify-content:center; gap:0; margin-bottom:28px; }
+  .step-dot {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; position: relative;
+    background: var(--card2); color: var(--dim); border: 2px solid rgba(255,255,255,.08);
+    transition: all .4s;
+    z-index: 1;
+  }
+  .step-dot.active { background: var(--gradient); color: #000; border-color: transparent; box-shadow: 0 0 20px rgba(0,212,170,.3); }
+  .step-dot.done { background: var(--green); color: #000; border-color: transparent; }
+  .step-line {
+    width: 80px; height: 2px; align-self: center; margin: 0 -4px;
+    background: rgba(255,255,255,.06); position: relative; z-index: 0;
+    transition: background .4s;
+  }
+  .step-line.done { background: var(--green); }
+
+  /* ─── 卡片 ─── */
+  .onboard-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 32px; border: 1px solid rgba(255,255,255,.06);
+    box-shadow: var(--shadow); position: relative; overflow: hidden;
+  }
+  .onboard-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background: var(--gradient); border-radius: 3px 3px 0 0;
+  }
+  .onboard-card h2 { font-size:20px; margin-bottom:6px; }
+  .onboard-card .sub { font-size:13px; color:var(--dim); margin-bottom:24px; line-height:1.5; }
+
+  .form-group { margin-bottom:18px; }
+  .form-group label { display:block; font-size:12px; color:var(--dim); margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; }
+  .form-group input, .form-group select {
+    width:100%; padding:12px 16px; border-radius:var(--radius-sm);
+    border:1px solid rgba(255,255,255,.08); background:var(--bg);
+    color:var(--text); font-size:15px; font-family:inherit;
+    transition: border-color .2s;
+  }
+  .form-group input:focus { outline:none; border-color:var(--green); }
+  .form-group input::placeholder { color: rgba(255,255,255,.15); }
+  .form-group .hint { font-size:11px; color:var(--dim); margin-top:4px; }
+
+  .form-row { display:flex; gap:12px; }
+  .form-row .form-group { flex:1; }
+
+  .btn {
+    padding:12px 28px; border:none; border-radius:var(--radius-sm);
+    font-size:15px; font-weight:600; cursor:pointer; transition:all .2s;
+    font-family:inherit; letter-spacing:.5px;
+  }
+  .btn-primary {
+    background: var(--gradient); color: #000;
+    width: 100%; margin-top: 8px;
+  }
+  .btn-primary:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,212,170,.3); }
+  .btn-back {
+    background: transparent; color: var(--dim); padding: 12px 20px;
+    font-size: 13px;
+  }
+  .btn-back:hover { color: var(--text); }
+
+  .nav-row { display:flex; justify-content:space-between; align-items:center; margin-top: 4px; }
+
+  /* ─── 阶段卡片 ─── */
+  .phase-list { margin-bottom: 18px; }
+  .phase-item {
+    background: var(--card2); border-radius: var(--radius-sm);
+    padding: 14px 16px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    border: 1px solid rgba(255,255,255,.04);
+  }
+  .phase-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,.06); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .phase-info { flex:1; }
+  .phase-info input {
+    width: 100%; padding: 6px 10px; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.03);
+    color: var(--text); font-size: 13px; font-family: inherit;
+  }
+  .phase-info input:focus { outline:none; border-color:var(--blue); }
+  .phase-info .phase-label { font-size: 11px; color: var(--dim); margin-bottom: 3px; }
+  .phase-row { display:flex; gap:8px; }
+  .phase-row .phase-field { flex:1; }
+  .btn-add-phase {
+    width:100%; padding:10px; border:1px dashed rgba(255,255,255,.1);
+    background:transparent; color:var(--dim); border-radius:var(--radius-sm);
+    cursor:pointer; font-size:13px; font-family:inherit; transition:all .2s;
+  }
+  .btn-add-phase:hover { border-color:var(--blue); color:var(--blue); }
+  .btn-remove { background: transparent; border: none; color: var(--red); cursor: pointer; font-size: 18px; padding: 4px 8px; opacity: .6; }
+  .btn-remove:hover { opacity: 1; }
+
+  .summary-box {
+    background: rgba(0,212,170,.08); border-radius: var(--radius-sm);
+    padding: 12px 16px; font-size: 13px; color: var(--green);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .summary-box .total { font-size: 22px; font-weight: 700; }
+
+  /* ─── 预设按钮 ─── */
+  .presets { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .preset-btn {
+    padding:8px 16px; border-radius:20px; border:1px solid rgba(255,255,255,.08);
+    background:transparent; color:var(--dim); font-size:12px; cursor:pointer;
+    font-family:inherit; transition: all .2s;
+  }
+  .preset-btn:hover { border-color:var(--blue); color:var(--blue); }
+  .preset-btn.active { border-color:var(--green); color:var(--green); background:rgba(0,212,170,.1); }
+
+  /* ─── 动画 ─── */
+  .slide-enter { animation: slideIn .4s ease-out; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ─── 完成页面 ─── */
+  .complete-icon { font-size: 64px; text-align:center; margin-bottom:16px; }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:16px 0; }
+  .info-item { background: var(--card2); border-radius:8px; padding:10px 14px; font-size:13px; }
+  .info-item .label { color: var(--dim); font-size:11px; }
+  .info-item .value { font-weight:700; font-size:16px; margin-top:2px; }
+</style>
+</head>
+<body>
+
+<div class="onboard-container">
+
+  <!-- 步骤指示器 -->
+  <div class="steps">
+    <div class="step-dot active" id="dot1">1</div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-dot" id="dot2">2</div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-dot" id="dot3">3</div>
+  </div>
+
+  <!-- ═══════ 步骤1：时间范围 ═══════ -->
+  <div class="onboard-card slide-enter" id="step1">
+    <h2>📅 设定你的时间范围</h2>
+    <div class="sub">JACK 叔叔的六年之约启示我们：长期主义的核心是给自己一个明确的锚点。设定开始与结束日期，让时间成为你的盟友。</div>
+    <div class="form-group">
+      <label>计划名称</label>
+      <input type="text" id="planName" value="七年之约" placeholder="例如：七年之约、30岁存够100万">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>开始日期</label>
+        <input type="date" id="startDate" value="{{ today }}">
+      </div>
+      <div class="form-group">
+        <label>结束日期</label>
+        <input type="date" id="endDate">
+      </div>
+    </div>
+    <div class="hint" style="margin-top: 8px;">
+      💡 建议周期：5~10 年，覆盖一个完整的经济牛熊周期。
+    </div>
+    <button class="btn btn-primary" onclick="goStep2()">下一步 → 设定总目标</button>
+  </div>
+
+  <!-- ═══════ 步骤2：总目标金额 ═══════ -->
+  <div class="onboard-card" id="step2" style="display:none;">
+    <h2>🎯 设定你的总目标金额</h2>
+    <div class="sub">JACK 叔叔说："100 万不是数字，是弹药。" 有足够的本金，才能在下一个大周期中重仓出击。设定一个能让你有动力、又不至于绝望的数字。</div>
+
+    <div class="presets" id="amountPresets">
+      <button class="preset-btn" onclick="setAmount(100000)">10 万</button>
+      <button class="preset-btn" onclick="setAmount(300000)">30 万</button>
+      <button class="preset-btn active" onclick="setAmount(500000)">50 万</button>
+      <button class="preset-btn" onclick="setAmount(1000000)">100 万</button>
+      <button class="preset-btn" onclick="setAmount(2000000)">200 万</button>
+    </div>
+
+    <div class="form-group">
+      <label>总目标金额（元）</label>
+      <input type="number" id="totalTarget" value="500000" step="10000" min="10000" required>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-back" onclick="goStep1()">← 上一步</button>
+      <button class="btn btn-primary" style="width:auto;padding:12px 32px;" onclick="goStep3()">下一步 → 分阶段拆解</button>
+    </div>
+  </div>
+
+  <!-- ═══════ 步骤3：分阶段目标 ═══════ -->
+  <div class="onboard-card slide-enter" id="step3" style="display:none;">
+    <h2>📊 拆解分阶段目标</h2>
+    <div class="sub">
+      正如 JACK 叔叔所说："前三年攒本金、练认知、等机会；后三年靠认知放大收益。"<br>
+      你不需要每年存一样多——开始可以少存，能力涨了再加速。下方预设了 3 个阶段，可自由调整。
+    </div>
+
+    <div class="phase-list" id="phaseList"></div>
+
+    <button class="btn-add-phase" onclick="addPhase()">+ 添加阶段</button>
+
+    <div class="summary-box" style="margin-top:16px;">
+      <span>📊 阶段合计</span>
+      <span><span id="phaseTotal" style="color:var(--dim);">0</span> / <span class="total" id="goalTotalDisplay">500,000</span> <span style="font-size:12px;color:var(--dim);">元</span></span>
+    </div>
+    <div id="phaseWarning" style="color:var(--red);font-size:12px;margin-top:4px;display:none;"></div>
+
+    <div class="nav-row" style="margin-top:16px;">
+      <button class="btn btn-back" onclick="goStep2()">← 上一步</button>
+      <button class="btn btn-primary" style="width:auto;padding:12px 28px;" onclick="submitGoal()">🎉 完成 · 开始记账</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let currentStep = 1;
+let phases = [];
+let totalGoal = 500000;
+
+// ── 初始化 ──
+document.addEventListener('DOMContentLoaded', () => {
+  // 默认结束日期 = 7年后
+  const today = new Date();
+  const end = new Date(today);
+  end.setFullYear(end.getFullYear() + 7);
+  document.getElementById('endDate').value = end.toISOString().split('T')[0];
+
+  // 默认阶段
+  phases = [
+    { name: '第一阶段 · 筑基', target: 100000 },
+    { name: '第二阶段 · 加速', target: 150000 },
+    { name: '第三阶段 · 冲刺', target: 250000 },
+  ];
+  renderPhases();
+});
+
+// ── 步骤切换 ──
+function goStep1() {
+  currentStep = 1;
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step1').classList.add('slide-enter');
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'none';
+  updateDots();
+}
+
+function goStep2() {
+  const name = document.getElementById('planName').value.trim();
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+  if (!name) return alert('请输入计划名称');
+  if (!start || !end) return alert('请选择开始和结束日期');
+  if (start >= end) return alert('结束日期必须在开始日期之后');
+
+  currentStep = 2;
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+  document.getElementById('step2').classList.add('slide-enter');
+  document.getElementById('step3').style.display = 'none';
+  updateDots();
+}
+
+function goStep3() {
+  totalGoal = parseInt(document.getElementById('totalTarget').value) || 500000;
+  if (totalGoal <= 0) return alert('请输入有效的目标金额');
+
+  // 重新生成更合理的阶段目标
+  // 根据总目标和年数自动计算
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+  const years = Math.max(1, (new Date(end) - new Date(start)) / (365.25 * 24 * 60 * 60 * 1000));
+  const numPhases = Math.max(3, Math.min(7, Math.round(years)));
+
+  // 递增权重：每个阶段权重递增
+  const weights = [];
+  for (let i = 0; i < numPhases; i++) weights.push(i + 1);
+  const totalWeight = weights.reduce((a,b)=>a+b,0);
+
+  const phaseNames = ['筑基期', '积累期', '成长加速期', '巩固期', '冲刺期', '收获前期', '收获期'];
+  phases = [];
+  for (let i = 0; i < numPhases; i++) {
+    const t = Math.round(totalGoal * weights[i] / totalWeight);
+    phases.push({
+      name: `第${i+1}阶段 · ${phaseNames[i] || '阶段'+(i+1)}`,
+      target: i === numPhases - 1 ? totalGoal - phases.reduce((s,p)=>s+p.target, 0) : t
+    });
+  }
+  // 确保最后阶段补齐整数
+  const sum = phases.reduce((s,p)=>s+p.target, 0);
+  phases[phases.length - 1].target += totalGoal - sum;
+
+  renderPhases();
+  document.getElementById('goalTotalDisplay').textContent = totalGoal.toLocaleString();
+
+  currentStep = 3;
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'block';
+  document.getElementById('step3').classList.add('slide-enter');
+  updateDots();
+}
+
+// ── 阶段渲染 ──
+function renderPhases() {
+  const container = document.getElementById('phaseList');
+  document.getElementById('goalTotalDisplay').textContent = totalGoal.toLocaleString();
+
+  container.innerHTML = phases.map((p, i) => `
+    <div class="phase-item">
+      <div class="phase-num">${i+1}</div>
+      <div class="phase-info">
+        <div class="phase-row">
+          <div class="phase-field" style="flex:2;">
+            <div class="phase-label">阶段名称</div>
+            <input type="text" value="${p.name}" onchange="updatePhase(${i},'name',this.value)" placeholder="例如：筑基期">
+          </div>
+          <div class="phase-field" style="flex:1;">
+            <div class="phase-label">目标（元）</div>
+            <input type="number" value="${p.target}" onchange="updatePhase(${i},'target',parseInt(this.value)||0)" placeholder="金额" step="10000" min="0">
+          </div>
+        </div>
+      </div>
+      ${phases.length > 1 ? `<button class="btn-remove" onclick="removePhase(${i})">×</button>` : ''}
+    </div>
+  `);
+  updatePhaseTotal();
+}
+
+function addPhase() {
+  phases.push({ name: `第${phases.length+1}阶段`, target: 0 });
+  renderPhases();
+}
+
+function removePhase(i) {
+  if (phases.length <= 1) return;
+  phases.splice(i, 1);
+  renderPhases();
+}
+
+function updatePhase(i, key, val) {
+  phases[i][key] = val;
+  updatePhaseTotal();
+}
+
+function updatePhaseTotal() {
+  const sum = phases.reduce((s, p) => s + p.target, 0);
+  document.getElementById('phaseTotal').textContent = sum.toLocaleString();
+  const warn = document.getElementById('phaseWarning');
+  if (sum !== totalGoal) {
+    const diff = totalGoal - sum;
+    warn.style.display = 'block';
+    warn.textContent = diff > 0
+      ? `⚠️ 阶段合计比总目标少 ${diff.toLocaleString()} 元，请补足`
+      : `⚠️ 阶段合计比总目标多 ${Math.abs(diff).toLocaleString()} 元，请调整`;
+  } else {
+    warn.style.display = 'none';
+  }
+}
+
+function setAmount(amt) {
+  document.querySelectorAll('#amountPresets .preset-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('totalTarget').value = amt;
+  totalGoal = amt;
+}
+
+function updateDots() {
+  ['dot1','dot2','dot3'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active', 'done');
+    if (i + 1 < currentStep) el.classList.add('done');
+    else if (i + 1 === currentStep) el.classList.add('active');
+  });
+  ['line1','line2'].forEach((id,i) => {
+    if (i + 1 < currentStep) document.getElementById(id).classList.add('done');
+    else document.getElementById(id).classList.remove('done');
+  });
+}
+
+// ── 提交 ──
+async function submitGoal() {
+  const name = document.getElementById('planName').value.trim();
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+  const sum = phases.reduce((s,p)=>s+p.target,0);
+
+  if (sum !== totalGoal && !confirm(`阶段合计 (${sum.toLocaleString()}) 与总目标 (${totalGoal.toLocaleString()}) 不一致，是否继续？`)) {
+    return;
+  }
+
+  // 过滤掉目标为 0 的阶段
+  const validPhases = phases.filter(p => p.target > 0);
+
+  const data = {
+    name, start_date: start, end_date: end,
+    total_target: totalGoal,
+    phases: validPhases.map(p => ({ name: p.name, target: p.target })),
+  };
+
+  const resp = await fetch('/api/goal', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (resp.ok) {
+    // 跳转到主页
+    window.location.href = '/';
+  } else {
+    alert('保存失败，请重试');
+  }
+}
+</script>
+
+</body>
+</html>

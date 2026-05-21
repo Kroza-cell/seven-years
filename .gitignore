@@ -1,0 +1,7 @@
+__pycache__/
+*.db
+*.pyc
+jaccount.db
+_s*.txt
+_*.txt
+*.output

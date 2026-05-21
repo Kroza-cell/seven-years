@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>七年之约 · 登录</title>
+<style>
+  :root {
+    --bg: #0f1119; --card: #1a1d2e; --card2: #222640;
+    --text: #e0e0e0; --dim: #8890a8;
+    --green: #00d4aa; --red: #ff6b7c; --blue: #6c8cff;
+    --gradient: linear-gradient(135deg, #00d4aa, #6c8cff);
+    --radius: 16px; --radius-sm: 10px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background-image:
+      radial-gradient(ellipse at 30% 20%, rgba(0,212,170,.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(108,140,255,.08) 0%, transparent 50%);
+  }
+  .login-box {
+    width: 400px; max-width: 95vw;
+  }
+  .login-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 36px 32px; border: 1px solid rgba(255,255,255,.06);
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  }
+  .login-card h2 {
+    font-size: 24px; margin-bottom: 4px;
+    background: var(--gradient); -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .login-card .sub {
+    font-size: 13px; color: var(--dim); margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  .tabs {
+    display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .tab-btn {
+    flex: 1; padding: 10px; border: none; background: transparent;
+    color: var(--dim); font-size: 14px; cursor: pointer; font-family: inherit;
+    border-bottom: 2px solid transparent; transition: all .2s;
+  }
+  .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+  .tab-btn:hover { color: var(--text); }
+
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-size: 12px; color: var(--dim);
+    margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .form-group input {
+    width: 100%; padding: 12px 16px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,.08); background: var(--bg);
+    color: var(--text); font-size: 15px; font-family: inherit;
+    transition: border-color .2s;
+  }
+  .form-group input:focus { outline:none; border-color:var(--green); }
+  .btn {
+    padding: 12px 28px; border: none; border-radius: var(--radius-sm);
+    font-size: 15px; font-weight: 600; cursor: pointer; transition: all .2s;
+    font-family: inherit; width: 100%;
+  }
+  .btn-primary { background: var(--gradient); color: #000; margin-top:4px; }
+  .btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+  .error {
+    background: rgba(255,107,124,.1); border-radius: var(--radius-sm);
+    padding: 10px 14px; font-size: 13px; color: var(--red); margin-bottom: 16px;
+  }
+  .quote {
+    margin-top: 24px; padding: 14px 16px;
+    background: rgba(108,140,255,.06); border-radius: var(--radius-sm);
+    font-size: 12px; color: var(--dim); line-height: 1.6;
+    border-left: 3px solid var(--blue);
+  }
+  .quote b { color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <div class="login-card">
+    <h2>🏦 七年之约</h2>
+    <div class="sub">长期主义 · 强制储蓄 · 等待大周期风口<br>每个人都有自己的七年</div>
+
+    <div class="tabs">
+      <button class="tab-btn {{ 'active' if tab!='register' else '' }}" onclick="switchTab('login')">登 录</button>
+      <button class="tab-btn {{ 'active' if tab=='register' else '' }}" onclick="switchTab('register')">注 册</button>
+    </div>
+
+    {% if error %}
+    <div class="error">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <form id="loginForm" method="POST" action="/login" style="{{ 'display:none' if tab=='register' else '' }}">
+      <div class="form-group">
+        <label>用户名</label>
+        <input type="text" name="username" placeholder="输入用户名" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>密码</label>
+        <input type="password" name="password" placeholder="输入密码" required>
+      </div>
+      <button type="submit" class="btn btn-primary">登 录</button>
+    </form>
+
+    <form id="registerForm" method="POST" action="/register" style="{{ 'display:none' if tab!='register' else '' }}">
+      <div class="form-group">
+        <label>用户名</label>
+        <input type="text" name="username" placeholder="2-20 个字符，支持中文" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>密码</label>
+        <input type="password" name="password" placeholder="至少 6 位" required>
+      </div>
+      <button type="submit" class="btn btn-primary">注 册 并 开 始</button>
+    </form>
+
+    <div class="quote">
+      <b>"Someone's sitting in the shade today because someone planted a tree a long time ago."</b><br>
+      — 沃伦·巴菲特
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:16px; color:var(--dim); font-size:11px;">
+    数据隔离 · 独立规划 · 你的七年只属于你
+  </div>
+</div>
+
+<script>
+function switchTab(t) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.tab-btn[onclick*="${t}"]`).classList.add('active');
+  document.getElementById('loginForm').style.display = t === 'login' ? '' : 'none';
+  document.getElementById('registerForm').style.display = t === 'register' ? '' : 'none';
+  // Update URL hash without reload
+  if (t === 'register') window.history.replaceState(null, '', '/register');
+  else window.history.replaceState(null, '', '/login');
+}
+</script>
+
+</body>
+</html>
