@@ -654,9 +654,11 @@ def api_accounts():
 
 # ═══════════════ 启动 ═══════════════
 
+# 模块导入时自动初始化数据库（PythonAnywhere 等生产环境需要）
+init_db()
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding='utf-8')
-    init_db()
     print("\n  🏦 七年之约 · 多用户版")
     print("  🌐 http://127.0.0.1:5000\n")
     app.run(debug=False, host="0.0.0.0", port=5000)
