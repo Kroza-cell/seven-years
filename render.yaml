@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: seven-years
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn jaccount_web:app -b 0.0.0.0:$PORT
+    plan: free
