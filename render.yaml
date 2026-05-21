@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: seven-year-plan
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn jaccount_web:app -b 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
