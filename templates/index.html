@@ -326,6 +326,104 @@
   .phase-amounts .p-remaining { font-size:10px; margin-top:2px; }
   .phase-amounts .p-remaining.done { color:var(--green); }
   .phase-amounts .p-remaining.need { color:var(--gold); }
+
+  /* ═══════════════ 响应式 ═══════════════ */
+
+  /* ── 平板 (768-1024px) ── */
+  @media (max-width:1024px) {
+    .container { padding:14px 16px; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .goal-target { font-size:28px; }
+    .card-value { font-size:22px; }
+    .goal-meta { flex-wrap:wrap; gap:10px; }
+    .analysis-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── 手机 (≤768px) ── */
+  @media (max-width:768px) {
+    .nav { padding:0 14px; height:48px; }
+    .nav h1 { font-size:15px; }
+    .nav .date { font-size:11px; }
+    .container { padding:10px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; gap:10px; }
+    .goal-card { padding:16px; }
+    .goal-target { font-size:24px; }
+    .goal-meta { gap:8px; font-size:11px; }
+    .goal-meta span b { font-size:13px; }
+    .card { padding:14px; }
+    .card-title { font-size:12px; }
+    .card-value { font-size:20px; }
+
+    /* 按钮 */
+    .quick-actions { flex-direction:column; gap:8px; }
+    .btn { font-size:13px; padding:10px 16px; }
+
+    /* 账户卡 */
+    .account-card .bal { font-size:18px; }
+    .account-card .name { font-size:11px; }
+    .account-card .pct { font-size:10px; }
+
+    /* 阶段 */
+    .phase-card { padding:10px 12px; gap:8px; }
+    .phase-badge { width:32px; height:32px; font-size:12px; }
+    .phase-body .phase-name { font-size:12px; }
+    .phase-body .phase-numbers { gap:10px; font-size:10px; }
+    .phase-amounts .p-saved { font-size:13px; }
+    .phase-amounts .p-target { font-size:10px; }
+    .phase-amounts .p-remaining { font-size:9px; }
+
+    /* 交易列表 */
+    .txn-list { max-height:200px; }
+    .txn-item { padding:8px 10px; }
+    .txn-cat { width:30px; height:30px; font-size:15px; margin-right:8px; }
+    .txn-info .cat { font-size:12px; }
+    .txn-amt { font-size:13px; }
+
+    /* 复盘 */
+    .review-panel .review-card { padding:10px; }
+    .review-panel .review-card .rev-date { font-size:11px; }
+    .review-panel .review-card .rev-summary { font-size:12px; }
+
+    /* 分析面板 */
+    .analysis-header { flex-direction:column; align-items:flex-start; gap:8px; }
+    .period-nav { margin-left:0; margin-top:4px; }
+    .metric-row { gap:8px; }
+    .metric-item { min-width:80px; padding:10px 12px; }
+    .metric-item .m-value { font-size:18px; }
+    .analysis-grid { grid-template-columns: 1fr; }
+    .chart-wrap { height:220px; }
+    .munger-avatar { padding:8px 10px; gap:6px; }
+    .munger-avatar .avatar-icon { font-size:24px; }
+    .munger-avatar .avatar-text { font-size:11px; }
+    .munger-card { padding:12px 14px; }
+    .munger-card .m-quote { font-size:12px; }
+    .munger-card .m-advice { font-size:11px; }
+    .munger-card .m-level { top:8px; right:10px; font-size:10px; }
+
+    /* 模态框 */
+    .modal { width:95vw; padding:20px; }
+    .modal h3 { font-size:16px; margin-bottom:14px; }
+    .cat-grid { grid-template-columns: repeat(3,1fr); gap:6px; }
+    .cat-item { padding:6px 4px; font-size:11px; }
+    .form-group input, .form-group select, .form-group textarea { padding:8px 12px; font-size:13px; }
+    .mood-btn { width:34px; height:34px; font-size:18px; }
+
+    /* 阶段里程碑 */
+    .phase-timeline-header { flex-wrap:wrap; gap:6px; }
+    .phase-timeline-header > div { font-size:12px; }
+  }
+
+  /* ── 小屏手机 (≤400px) ── */
+  @media (max-width:400px) {
+    .goal-target { font-size:20px; }
+    .card { padding:10px; }
+    .btn { font-size:12px; padding:8px 12px; }
+    .cat-grid { grid-template-columns: repeat(2,1fr); }
+    .metric-row .metric-item { min-width:60px; padding:8px 10px; }
+    .metric-item .m-value { font-size:15px; }
+    .period-btn { padding:4px 10px; font-size:11px; }
+    .analysis-header { gap:4px; }
+  }
 </style>
 </head>
 <body>

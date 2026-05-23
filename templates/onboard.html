@@ -155,6 +155,32 @@
   .info-item { background: var(--card2); border-radius:8px; padding:10px 14px; font-size:13px; }
   .info-item .label { color: var(--dim); font-size:11px; }
   .info-item .value { font-weight:700; font-size:16px; margin-top:2px; }
+
+  @media (max-width:768px) {
+    .onboard-container { width:100%; padding:0 12px; }
+    .onboard-card { padding:20px 16px; }
+    .onboard-card h2 { font-size:17px; }
+    .onboard-card .sub { font-size:12px; }
+    .form-row { flex-direction:column; gap:8px; }
+    .form-group input, .form-group select { padding:10px 14px; font-size:14px; }
+    .btn { padding:10px 20px; font-size:14px; }
+    .steps { margin-bottom:18px; }
+    .step-dot { width:34px; height:34px; font-size:13px; }
+    .step-line { width:50px; }
+    .presets { gap:6px; }
+    .preset-btn { padding:6px 12px; font-size:11px; }
+    .phase-item { padding:10px 12px; }
+    .phase-row { flex-direction:column; gap:4px; }
+    .summary-box .total { font-size:18px; }
+    .info-grid { grid-template-columns:1fr; }
+  }
+  @media (max-width:400px) {
+    .onboard-card { padding:14px 12px; border-radius:12px; }
+    .onboard-card h2 { font-size:15px; }
+    .step-dot { width:28px; height:28px; font-size:11px; }
+    .step-line { width:30px; }
+    .onboard-card .sub { font-size:11px; }
+  }
 </style>
 </head>
 <body>

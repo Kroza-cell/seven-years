@@ -79,6 +79,22 @@
     border-left: 3px solid var(--blue);
   }
   .quote b { color: var(--text); }
+
+  @media (max-width:768px) {
+    .login-card { padding:24px 20px; }
+    .login-card h2 { font-size:20px; }
+    .login-card .sub { font-size:12px; }
+    .tab-btn { font-size:13px; padding:8px; }
+    .form-group input { padding:10px 14px; font-size:14px; }
+    .btn { padding:10px 22px; font-size:14px; }
+    .quote { font-size:11px; padding:10px 12px; }
+  }
+  @media (max-width:400px) {
+    .login-box { max-width:100vw; }
+    .login-card { padding:16px 14px; border-radius:12px; }
+    .login-card h2 { font-size:18px; }
+    .form-group { margin-bottom:12px; }
+  }
 </style>
 </head>
 <body>
